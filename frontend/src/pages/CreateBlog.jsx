@@ -35,7 +35,7 @@ const CreateBlog = () => {
     const createBlogHandle = async () => {
         try {
             dispatch(setLoading(true))
-            const res = await axios.post(`https://ash-blogs.onrender.com/api/v1/blog`, {title, category}, {
+            const res = await axios.post(`https://ashim-blogs.onrender.com/api/v1blog`, {title, category}, {
                 headers: {
                     "Content-Type": "application/json"
                 },

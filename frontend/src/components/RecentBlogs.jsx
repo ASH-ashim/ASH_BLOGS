@@ -17,7 +17,7 @@ const RecentBlogs = () => {
         const getAllPublishedBlogs = async () => {
             try {
                 const res = await axios.get(
-                    `https://ash-blogs.onrender.com/api/v1blog/get-published-blogs`,
+                    `https://ash-blogs.onrender.com/api/v1/blog/get-published-blogs`,
                     { withCredentials: true }
                 )
                 if (res.data.success) {

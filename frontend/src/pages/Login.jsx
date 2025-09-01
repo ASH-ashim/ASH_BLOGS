@@ -44,7 +44,7 @@ const Login = () => {
 
     try {
       dispatch(setLoading(true));
-      const res = await axios.post('https://ash-blogs.onrender.com/api/v1user/login', input, {
+      const res = await axios.post('https://ash-blogs.onrender.com/api/v1/user/login', input, {
         headers: {
           "Content-Type": "application/json"
         },

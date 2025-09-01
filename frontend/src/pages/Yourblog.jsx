@@ -30,7 +30,7 @@ const Yourblog = () => {
 
     const getOwnBlog = async () => {
     try {
-        const res = await axios.get(`http://localhost:3000/api/v1/blog/get-my-blogs`, {
+        const res = await axios.get(`https://ash-blogs.onrender.com/blog/get-my-blogs`, {
         withCredentials: true
         });
         if (res.data.success) {
@@ -43,7 +43,7 @@ const Yourblog = () => {
 
     const deleteBlog = async (id) => {
     try {
-        const res = await axios.delete(`http://localhost:3000/api/v1/blog/delete/${id}`, { withCredentials: true });
+        const res = await axios.delete(`https://ash-blogs.onrender.com/blog/delete/${id}`, { withCredentials: true });
         if (res.data.success) {
         const updatedBlogData = blog.filter((b) => b._id !== id);
         dispatch(setBlog(updatedBlogData));

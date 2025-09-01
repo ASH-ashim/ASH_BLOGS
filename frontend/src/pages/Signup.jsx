@@ -41,7 +41,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       dispatch(setLoading(true)); // Fixed typo: 'diapatch' to 'dispatch'
-      const res = await axios.post('https://ash-blogs.onrender.com/user/register', user, {
+      const res = await axios.post('https://ash-blogs.onrender.com/api/v1user/register', user, {
         headers: {
           "Content-Type": "application/json",
         },

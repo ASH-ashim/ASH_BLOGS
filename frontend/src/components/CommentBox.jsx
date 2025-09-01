@@ -17,7 +17,7 @@ const CommentBox = ({ selectedBlog }) => {
         const getAllCommentsOfBlog = async () => {
             try {
             const res = await axios.get(
-    `https://ash-blogs.onrender.com/comments/${selectedBlog._id}/comment/all`
+    `https://ash-blogs.onrender.com/api/v1comments/${selectedBlog._id}/comment/all`
 );
                 const data = res.data.comments;
                 dispatch(setComment(data));
@@ -35,7 +35,7 @@ const CommentBox = ({ selectedBlog }) => {
 
         try {
             const res = await axios.post(
-                `https://ash-blogs.onrender.com/comments/create`,
+                `https://ash-blogs.onrender.com/api/v1comments/create`,
                 { blogId: selectedBlog._id, text: newComment },
                 { withCredentials: true }
             );

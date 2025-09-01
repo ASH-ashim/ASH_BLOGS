@@ -69,7 +69,7 @@ const Profile = () => {
         
         try {
             dispatch(setLoading(true))
-            const res = await axios.put(`https://ash-blogs.onrender.com/user/profile/update`, formData, {
+            const res = await axios.put(`https://ash-blogs.onrender.com/api/v1user/profile/update`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },

@@ -7,7 +7,7 @@ const PopularAuthors = () => {
 
     const getAllUsers = async () => {
         try {
-            const res = await axios.get(`https://ashim-blogs.onrender.com/api/v1user/all-users`)
+            const res = await axios.get(`http://localhost:3000/api/v1/user/all-users`)
             if (res.data.success) {
                 setPopularUser(res.data.users)
             }

@@ -11,7 +11,7 @@ const Blogs = () => {
   useEffect(() => {
     const getAllPublishedBlogs = async () => {
       try {
-        const res = await axios.get(`https://ashim-blogs.onrender.com/api/v1blog/get-published-blogs`, {
+        const res = await axios.get(`http://localhost:3000/api/v1/blog/get-published-blogs`, {
           withCredentials: true,
         })         
         if (res.data.success) {

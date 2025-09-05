@@ -6,7 +6,6 @@ import userRoute from './routes/user.route.js';
 import commentRoute from './routes/comment.route.js'
 import cors from "cors";
 import cookieParser from 'cookie-parser';
-import path from 'path';
 
 dotenv.config();
 const app = express();
@@ -26,11 +25,7 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/blog", blogRoute);
 app.use("/api/v1/comments", commentRoute);
 
-app.use(express.static(path.join(__dirname, "frontend", "dist")));
 
-// app.get("*", (_, res) => {
-//     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-// });
 
 app.listen(PORT, () => {
     connectDb();

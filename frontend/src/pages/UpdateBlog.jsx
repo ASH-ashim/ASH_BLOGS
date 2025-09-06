@@ -174,11 +174,11 @@ const UpdateBlog = () => {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Category</SelectLabel>
-                                    <SelectItem value="Web Development">Web Development</SelectItem>
-                                    <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
-                                    <SelectItem value="Blogging">Blogging</SelectItem>
-                                    <SelectItem value="Photgraphy">Photgraphy</SelectItem>
-                                    <SelectItem value="Cooking">Cooking</SelectItem>
+                                    <SelectItem value="Web Development">AI</SelectItem>
+                                    <SelectItem value="Digital Marketing">Blockchain</SelectItem>
+                                    <SelectItem value="Blogging">Tech Trends</SelectItem>
+                                    <SelectItem value="Photgraphy">Philosophy</SelectItem>
+                                    <SelectItem value="Cooking">Personal</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>

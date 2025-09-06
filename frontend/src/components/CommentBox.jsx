@@ -258,4 +258,22 @@ const CommentBox = ({ selectedBlog }) => {
 
                             {/* Reply Input */}
                             {activeReplyId === item._id && (
-                                <div className='flex gap
+                                <div className='flex gap-3 w-full px-10 mt-2'>
+                                    <Textarea
+                                        placeholder="Reply here..."
+                                        className="border-2 dark:border-gray-500 bg-gray-200 dark:bg-gray-700"
+                                        value={replyText}
+                                        onChange={e => setReplyText(e.target.value)}
+                                    />
+                                    <Button onClick={() => replyHandler(item._id)}><LuSend /></Button>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default CommentBox;

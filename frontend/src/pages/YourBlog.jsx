@@ -27,6 +27,7 @@ const YourBlog = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { blog } = useSelector((store) => store.blog)
+  const { user } = useSelector((store) => store.auth) // get logged-in user
 
   const getOwnBlog = async () => {
     try {
@@ -55,7 +56,7 @@ const YourBlog = () => {
       }
     } catch (error) {
       console.log(error)
-      toast.error("Something went Wrong")
+      toast.error("Something went wrong")
     }
   }
 
@@ -83,40 +84,47 @@ const YourBlog = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {blog?.map((item) => (
-                <TableRow key={item._id}>
-                  <TableCell className="flex items-center gap-4">
-                    <img
-                      src={item.thumbnail || '/placeholder.png'}
-                      className="w-20 rounded-md hidden md:block"
-                      alt="Blog Thumbnail"
-                    />
-                    <h1
-                      onClick={() => navigate(`/blogs/${item._id}`)}
-                      className="hover:underline cursor-pointer truncate md:truncate-none max-w-xs sm:max-w-sm md:max-w-none"
-                    >
-                      {item.title}
-                    </h1>
-                  </TableCell>
-                  <TableCell className="whitespace-nowrap">{item.category}</TableCell>
-                  <TableCell className="whitespace-nowrap">{formatDate(item.createdAt)}</TableCell>
-                  <TableCell className="text-center">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <BsThreeDotsVertical />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem onClick={() => navigate(`/dashboard/write-blog/${item._id}`)}>
-                          <Edit className="mr-2 h-4 w-4" /> Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => deleteBlog(item._id)} className="text-red-800">
-                          <Trash className="mr-2 h-4 w-4" /> Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {blog
+                ?.filter((item) => item.user === user._id) // only show blogs created by current user
+                .map((item) => (
+                  <TableRow key={item._id}>
+                    <TableCell className="flex items-center gap-4">
+                      <img
+                        src={item.thumbnail || '/placeholder.png'}
+                        className="w-20 rounded-md hidden md:block"
+                        alt="Blog Thumbnail"
+                      />
+                      <h1
+                        onClick={() => navigate(`/blogs/${item._id}`)}
+                        className="hover:underline cursor-pointer truncate md:truncate-none max-w-xs sm:max-w-sm md:max-w-none"
+                      >
+                        {item.title}
+                      </h1>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">{item.category}</TableCell>
+                    <TableCell className="whitespace-nowrap">{formatDate(item.createdAt)}</TableCell>
+                    <TableCell className="text-center">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          <BsThreeDotsVertical />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem
+                            onClick={() => navigate(`/dashboard/write-blog/${item._id}`)}
+                          >
+                            <Edit className="mr-2 h-4 w-4" /> Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => deleteBlog(item._id)}
+                            className="text-red-800"
+                          >
+                            <Trash className="mr-2 h-4 w-4" /> Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </Card>

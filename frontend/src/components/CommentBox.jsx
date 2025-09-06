@@ -111,7 +111,7 @@ const CommentBox = ({ selectedBlog }) => {
             }
         } catch (error) {
             console.log(error);
-            toast.error("comment delete nhi hua bhai")
+            toast.error("Failed to add comment")
 
         }
     }
@@ -119,7 +119,7 @@ const CommentBox = ({ selectedBlog }) => {
     const editCommentHandler = async (commentId) => {
         try {
             const res = await axios.put(
-                `http://localhost:3000/api/v1/comment/${commentId}/edit`,
+                `https://ash-blogs.onrender.com/api/v1/comment/${commentId}/edit`,
                 { content: editedContent },
                 {
                     withCredentials: true,
@@ -147,7 +147,7 @@ const CommentBox = ({ selectedBlog }) => {
         const likeCommentHandler = async (commentId) => {
                 try {
                 const res = await axios.get(
-                    `http://localhost:3000/api/v1/comment/${commentId}/like`,
+                    `https://ash-blogs.onrender.com/api/v1/comment/${commentId}/like`,
                     {
                         withCredentials: true,
                     }

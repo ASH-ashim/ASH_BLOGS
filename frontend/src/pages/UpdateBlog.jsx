@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card'
+onalimport { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import React, { useRef, useState } from 'react'
@@ -174,11 +174,11 @@ const UpdateBlog = () => {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Category</SelectLabel>
-                                    <SelectItem value="Web Development">AI</SelectItem>
-                                    <SelectItem value="Digital Marketing">Blockchain</SelectItem>
-                                    <SelectItem value="Blogging">Tech Trends</SelectItem>
-                                    <SelectItem value="Photgraphy">Philosophical</SelectItem>
-                                    <SelectItem value="Cooking">Personal</SelectItem>
+                                    <SelectItem value="AI">AI</SelectItem>
+                                    <SelectItem value="Blockchain">Blockchain</SelectItem>
+                                    <SelectItem value="Tech Trends">Tech Trends</SelectItem>
+                                    <SelectItem value="Philosophical">Philosophical</SelectItem>
+                                    <SelectItem value="Personal">Personal</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>

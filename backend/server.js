@@ -6,13 +6,13 @@ import blogRoute from "./routes/blog.route.js";
 import commentRoute from "./routes/comment.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import path from "path";
+// import path from "path";
 
 dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,13 +31,13 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/blog", blogRoute);
 app.use("/api/v1/comment", commentRoute);
 
-if (process.env.SERVE_FRONTEND === "true") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+// if (process.env.SERVE_FRONTEND === "true") {
+//   app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-  app.get("*", (_, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-  });
-}
+//   app.get("*", (_, res) => {
+//     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+//   });
+// }
 
 
 connectDB()

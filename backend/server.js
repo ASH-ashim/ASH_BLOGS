@@ -17,7 +17,6 @@ app.use(cors({
     credentials: true
 }));
 
-const __dirname = path.resolve();
 
 const PORT = process.env.PORT || 8000;
 
@@ -27,7 +26,9 @@ app.use("/api/v1/comments", commentRoute);
 
 
 
-app.listen(PORT, () => {
-    connectDb();
-    console.log(`Server started at port: ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     connectDb();
+//     console.log(`Server started at port: ${PORT}`);
+// });
+
+export default app;

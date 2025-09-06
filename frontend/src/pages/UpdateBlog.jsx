@@ -145,7 +145,7 @@ const UpdateBlog = () => {
                         >
                             {selectBlog?.isPublished ? "UnPublish" : "Publish"}
                         </Button>
-                        <Button variant="destructive" onClick={deleteBlog}>Remove Course</Button>
+                        <Button variant="destructive" onClick={deleteBlog}>Remove Blog</Button>
                     </div>
                     <div className='pt-10'>
                         <Label>Title</Label>

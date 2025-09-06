@@ -23,7 +23,7 @@ import { Edit, Trash } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-const Yourblog = () => {
+const YourBlog = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { blog } = useSelector(store => store.blog);
@@ -128,4 +128,4 @@ const Yourblog = () => {
     );
 };
 
-export default Yourblog;
+export default YourBlog;

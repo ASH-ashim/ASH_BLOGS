@@ -1,86 +1,96 @@
 import React from 'react'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Home from './pages/Home';
-import About from './pages/About';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Navbar from './components/Navbar';
-import Dashboard from './pages/Dashboard';
-import Profile from './pages/Profile';
-import CreateBlog from './pages/CreateBlog';
-import Yourblog from './pages/Yourblog';
-import Blogs from './pages/Blogs';
-import UpdateBlog from './pages/UpdateBlog';
-import BlogView from './pages/BlogView';
-import Footer from './components/Footer';
-import SearchList from './pages/SearchList';
+import Signup from './pages/Signup'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Navbar from './components/Navbar'
+import Profile from './pages/Profile'
+import Blogs from './pages/Blogs'
+import CreateBlog from './pages/CreateBlog'
+import Dashboard from './pages/Dashboard'
+import YourBlog from './pages/YourBlog'
+import BlogView from './pages/BlogView'
+import Footer from './components/Footer'
+import About from './pages/About'
+import Comments from './pages/Comments'
+import UpdateBlog from './pages/UpdateBlog'
+import ProtectedRoute from './components/ProtectedRoute'
+import SearchList from './pages/SearchList'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <><Navbar/><Home/><Footer/></>
+    element: <><Navbar/><Home /><Footer/></>
   },
-
   {
     path: "/blogs",
-    element: <><Navbar/><Blogs/><Footer/></>
+    element: <><Navbar/><Blogs /><Footer/></>
   },
   {
     path: "/about",
-    element: <><Navbar/><About/><Footer/></>
+    element: <><Navbar/><About /><Footer/></>
   },
-
   {
     path: "/search",
     element: <><Navbar/><SearchList/><Footer/></>
   },
-
-
-  {
-    path: "/login",
-    element: <><Navbar/><Login/></>
-  },
-  {
-    path: "/signup",
-    element: <><Navbar/><Signup/></>
-  },
   {
     path: "/blogs/:blogId",
-    element: <><Navbar/><BlogView/></>
+    element: <><Navbar/><ProtectedRoute><BlogView /></ProtectedRoute></>
   },
   {
-    path: "/dashboard",
-    element: <><Navbar /><Dashboard/></>,
-    children: [
-      {
-        path: "profile",
-        element: <Profile />
-      },
-
-      {
-        path: "your-blog",
-        element: <Yourblog />
-      },
-
+    path: "/write-blog",
+    element: <><Navbar/><CreateBlog /></>
+  },
+ 
+  {
+    path: "/profile",
+    element: <><Navbar/><Profile /></>
+  },
+  {
+    path:"/dashboard",
+    element: <><Navbar/><ProtectedRoute><Dashboard/></ProtectedRoute></>,
+    children:[
       {
         path: "write-blog",
-        element: <CreateBlog />
+        element:<><CreateBlog/></>
       },
-      
       {
         path: "write-blog/:blogId",
-        element: <UpdateBlog/>
+        element: <><UpdateBlog /></>
       },
+      {
+        path: "your-blog",
+        element:<YourBlog/>
+      },
+      {
+        path: "comments",
+        element:<Comments/>
+      },
+      {
+        path: "profile",
+        element:<Profile/>
+      },
+      
+      
     ]
-  }
+    },
+  {
+    path: "/signup",
+    element: <><Navbar/><Signup /></> 
+  },
+  {
+    path: "/login",
+    element: <><Navbar/><Login /></>
+  },
 ])
 
 const App = () => {
   return (
-        <>
-        <RouterProvider router={router} />
-        </>
-    )
+    <>
+      <RouterProvider router={router} />
+    </>
+  )
 }
 
 export default App

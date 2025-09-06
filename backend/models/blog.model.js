@@ -1,32 +1,37 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        required: true
     },
     subtitle: {
-        type: String, 
+        type: String,
+        // required: true
     },
     description: {
         type: String,
+        // required:true
     },
     thumbnail: {
         type: String,
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
+
     },
     category: {
-        type: String,
+        type: String
     },
-    likes: [{type:mongoose.Schema.Types.ObjectId, ref: "User"}],
-    comments: [{type:mongoose.Schema.Types.ObjectId, ref: "Comments"}],
-    isPublished: {
-        type: Boolean,
-        default: false,
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+    isPublished:{
+        type:Boolean,
+        default:false
     }
-}, {timestamps: true})
+
+
+}, { timestamps: true })
 
 export const Blog = mongoose.model("Blog", blogSchema)

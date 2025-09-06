@@ -1,45 +1,41 @@
-import express from "express";
-import dotenv from "dotenv";
-import connectDb from "./database/db.js";
-import blogRoute from "./routes/blog.route.js";
-import userRoute from "./routes/user.route.js";
-import commentRoute from "./routes/comment.route.js";
-import cors from "cors";
-import cookieParser from "cookie-parser";
+import express from "express"
+import dotenv from "dotenv"
+import connectDB from "./database/db.js"
+import userRoute from "./routes/user.route.js"
+import blogRoute from "./routes/blog.route.js"
+import commentRoute from "./routes/comment.route.js"
+import cookieParser from 'cookie-parser';
+import cors from 'cors'
+import path from "path"
 
-dotenv.config();
+dotenv.config()
+const app = express()
 
-const app = express();
+const PORT = process.env.PORT || 3000
 
-// middlewares
-app.use(cookieParser());
+
+// default middleware
 app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({extended:true}));
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials:true
+}))
 
-// CORS — allow your frontend (local + deployed)
-app.use(
-    cors({
-    origin: [
-      "http://localhost:5173", // local dev
-      process.env.CLIENT_URL   // set in Vercel env (e.g. https://your-frontend.vercel.app)
-    ],
-    credentials: true,
-    })
-);
+const _dirname = path.resolve()
 
-// routes
-app.use("/api/v1/user", userRoute);
-app.use("/api/v1/blog", blogRoute);
-app.use("/api/v1/comments", commentRoute);
+// apis
+    app.use("/api/v1/user", userRoute)
+    app.use("/api/v1/blog", blogRoute)
+    app.use("/api/v1/comment", commentRoute)
 
-// connect DB at cold start
-let isDbConnected = false;
-async function initDb() {
-    if (!isDbConnected) {
-    await connectDb();
-    isDbConnected = true;
-    console.log("MongoDB connected");
-    }
-}
-initDb();
+    app.use(express.static(path.join(_dirname,"/frontend/dist")));
+    // app.get("*", (_, res)=>{
+    // res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"))
+    // });
 
-export default app;
+app.listen(PORT, ()=>{
+    console.log(`Server listen at port ${PORT}`);
+    connectDB()
+})

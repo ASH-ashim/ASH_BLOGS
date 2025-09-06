@@ -3,16 +3,16 @@ import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import React, { useRef, useState } from 'react'
 import { Input } from '@/components/ui/input'
-import JoditEditor from 'jodit-react';
+import JoditEditor from 'jodit-react'
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "../components/ui/select";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '@/redux/authSlice'
@@ -21,78 +21,82 @@ import { toast } from 'sonner'
 import { Loader } from 'lucide-react'
 import { setBlog } from '@/redux/blogSlice'
 
-
 const UpdateBlog = () => {
-  const dispatch = useDispatch();
-  const editor = useRef(null);
-  const [publish, setPublish] = useState(false);
-  const params = useParams();
-  const id = params.blogId;
-  const { blog, loading } = useSelector(store => store.blog);
-  const selectBlog = blog.find(blog => blog._id === id);
+  const dispatch = useDispatch()
+  const editor = useRef(null)
+  const [publish, setPublish] = useState(false)
+  const params = useParams()
+  const id = params.blogId
+  const { blog, loading } = useSelector((store) => store.blog)
+  const selectBlog = blog.find((blog) => blog._id === id)
 
   const [blogData, setBlogData] = useState({
-    title: selectBlog?.title || "",
-    subtitle: selectBlog?.subtitle || "",
-    description: selectBlog?.description || "",
-    category: selectBlog?.category || "",
-    thumbnail: selectBlog?.thumbnail || null
-  });
+    title: selectBlog?.title || '',
+    subtitle: selectBlog?.subtitle || '',
+    description: selectBlog?.description || '',
+    category: selectBlog?.category || '',
+    thumbnail: selectBlog?.thumbnail || null,
+  })
 
-  const [previewThumbnail, setPreviewThumbnail] = useState(selectBlog?.thumbnail || null);
+  const [previewThumbnail, setPreviewThumbnail] = useState(
+    selectBlog?.thumbnail || null
+  )
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setBlogData((prev) => ({
       ...prev,
-      [name]: value
-    }));
-  };
+      [name]: value,
+    }))
+  }
 
   const selectCategory = (value) => {
-    setBlogData({ ...blogData, category: value });
-  };
+    setBlogData({ ...blogData, category: value })
+  }
 
   const selectThumbnail = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     if (file) {
-      setBlogData({ ...blogData, thumbnail: file });
-      const fileReader = new FileReader();
-      fileReader.onloadend = () => setPreviewThumbnail(fileReader.result);
-      fileReader.readAsDataURL(file);
+      setBlogData({ ...blogData, thumbnail: file })
+      const fileReader = new FileReader()
+      fileReader.onloadend = () => setPreviewThumbnail(fileReader.result)
+      fileReader.readAsDataURL(file)
     }
-  };
+  }
 
   const updateBlogHandler = async () => {
-    const formData = new FormData();
-    formData.append("title", blogData.title);
-    formData.append("subtitle", blogData.subtitle);
-    formData.append("description", blogData.description);
-    formData.append("category", blogData.category);
-    formData.append("file", blogData.thumbnail);
+    const formData = new FormData()
+    formData.append('title', blogData.title)
+    formData.append('subtitle', blogData.subtitle)
+    formData.append('description', blogData.description)
+    formData.append('category', blogData.category)
+    formData.append('file', blogData.thumbnail)
 
     try {
-      dispatch(setLoading(true));
-      const res = await axios.put(`https://ash-blogs.onrender.com/api/v1/blog/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        },
-        withCredentials: true,
-      });
+      dispatch(setLoading(true))
+      const res = await axios.put(
+        `https://ash-blogs.onrender.com/api/v1/blog/${id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true,
+        }
+      )
 
       if (res.data.success) {
-        toast.success(res.data.message || "Blog updated successfully");
-        console.log(blogData);
+        toast.success(res.data.message || 'Blog updated successfully')
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      console.log(error)
+      toast.error('Something went wrong')
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setLoading(false))
     }
-  };
+  }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const togglePublish = async (action) => {
     try {
@@ -100,98 +104,114 @@ const UpdateBlog = () => {
         `https://ash-blogs.onrender.com/api/v1/blog/${id}`,
         { action },
         { withCredentials: true }
-      );
+      )
       if (res.data.success) {
-        setPublish(!publish);
-        toast.success(res.data.message || "Blog publish status updated");
-        navigate('/dashboard/your-blog');
+        setPublish(!publish)
+        toast.success(res.data.message || 'Blog publish status updated')
+        navigate('/dashboard/your-blog')
       } else {
-        toast.error("Failed to update");
+        toast.error('Failed to update')
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      console.log(error)
+      toast.error('Something went wrong')
     }
-  };
+  }
 
   const removeBlog = async () => {
     try {
-      const res = await axios.delete(`https://ash-blogs.onrender.com/api/v1/blog/delete/${id}`, { withCredentials: true });
+      const res = await axios.delete(
+        `https://ash-blogs.onrender.com/api/v1/blog/delete/${id}`,
+        { withCredentials: true }
+      )
       if (res.data.success) {
-        const updatedBlogData = blog.filter((blogItem) => blogItem?._id !== id);
-        dispatch(setBlog(updatedBlogData));
-        toast.success(res.data.message || "Blog deleted successfully");
-        navigate('/dashboard/your-blog');
+        const updatedBlogData = blog.filter((blogItem) => blogItem?._id !== id)
+        dispatch(setBlog(updatedBlogData))
+        toast.success(res.data.message || 'Blog deleted successfully')
+        navigate('/dashboard/your-blog')
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+      console.log(error)
+      toast.error('Something went wrong')
     }
-  };
+  }
 
   return (
-    <div className='md:ml-[320px] pt-20 pb-10'>
-      <div className='max-w-6xl mx-auto mt-8'>
-        <Card className='w-full bg-white dark:bg-gray-800 p-5 -space-y-5'>
-          <h1 className='text-4xl font-extrabold'>Blog Information</h1>
-          <p>Make changes in your blog here. Create publish to publish your blog.</p>
-          <div className='space-x-2'>
-            <Button onClick={() => togglePublish(selectBlog?.isPublished ? "false" : "true")}>
-              {selectBlog?.isPublished ? "Unpublish" : "Publish"}
+    <div className="md:ml-[320px] pt-20 pb-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto mt-8">
+        <Card className="w-full bg-white dark:bg-gray-800 p-5 space-y-6 sm:space-y-8">
+          <div className="space-y-2">
+            <h1 className="text-3xl sm:text-4xl font-extrabold">
+              Blog Information
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+              Make changes in your blog here. Create publish to publish your blog.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <Button
+              onClick={() =>
+                togglePublish(selectBlog?.isPublished ? 'false' : 'true')
+              }
+            >
+              {selectBlog?.isPublished ? 'Unpublish' : 'Publish'}
             </Button>
-            <Button onClick={removeBlog} variant="destructive">Remove Blog</Button>
+            <Button onClick={removeBlog} variant="destructive">
+              Remove Blog
+            </Button>
           </div>
 
           {/* Title */}
-          <div className='pt-10'>
-            <Label className='mb-2'>Title</Label>
+          <div>
+            <Label className="mb-2">Title</Label>
             <Input
               type="text"
               placeholder="Enter the Blog Title"
               name="title"
               value={blogData.title}
               onChange={handleChange}
-              className='dark:border-grey-200'
             />
           </div>
 
           {/* Subtitle */}
-          <div className='pt-10'>
-            <Label className='mb-2'>Subtitle</Label>
+          <div>
+            <Label className="mb-2">Subtitle</Label>
             <Input
               type="text"
               placeholder="Enter the Subtitle"
               name="subtitle"
               value={blogData.subtitle}
               onChange={handleChange}
-              className='dark:border-grey-200'
             />
           </div>
 
           {/* Description */}
           <div>
-            <Label className='mb-2'>Description</Label>
+            <Label className="mb-2">Description</Label>
             <JoditEditor
               ref={editor}
               value={blogData.description}
               onChange={(newContent) =>
                 setBlogData((prev) => ({ ...prev, description: newContent }))
               }
-              className='jodit_toolbar'
+              className="jodit_toolbar"
             />
           </div>
 
           {/* Category */}
           <div>
-            <Label className='mt-2 mb-2'>Category</Label>
+            <Label className="mb-2 mt-2">Category</Label>
             <Select onValueChange={selectCategory} value={blogData.category}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full sm:w-60">
                 <SelectValue placeholder="Select a Category" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel></SelectLabel>
-                  <SelectItem value="Full stack development">Full Stack Development</SelectItem>
+                  <SelectItem value="Full stack development">
+                    Full Stack Development
+                  </SelectItem>
                   <SelectItem value="Personal">Personal</SelectItem>
                   <SelectItem value="New Trends">New Trends</SelectItem>
                   <SelectItem value="Blockchain">Blockchain</SelectItem>
@@ -205,35 +225,37 @@ const UpdateBlog = () => {
           </div>
 
           {/* Thumbnail */}
-          <div>
+          <div className="flex flex-col gap-2">
             <Label className="mb-2">Thumbnail</Label>
             <Input
               type="file"
               onChange={selectThumbnail}
               id="file"
               accept="image/*"
-              className='w-fit dark:border-gray-300'
+              className="w-full sm:w-fit"
             />
             {previewThumbnail && (
               <img
                 src={previewThumbnail}
-                className='w-64 my-2'
-                alt='thumbnail'
+                className="w-full sm:w-64 my-2 object-contain rounded"
+                alt="thumbnail"
               />
             )}
           </div>
 
           {/* Buttons */}
-          <div className='flex gap-4 mt-4'>
-            <Button variant="outline" onClick={() => navigate(-1)}>Back</Button>
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <Button variant="outline" onClick={() => navigate(-1)}>
+              Back
+            </Button>
             <Button onClick={updateBlogHandler}>
               {loading ? (
                 <>
-                  <Loader className='mr-2 w-4 h-4 animate-spin' />
+                  <Loader className="mr-2 w-4 h-4 animate-spin" />
                   Please Wait
                 </>
               ) : (
-                "Save"
+                'Save'
               )}
             </Button>
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -7,72 +7,72 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Card } from '../components/ui/card'
-import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
-import { setBlog } from '@/redux/blogSlice'
-import { BsThreeDotsVertical } from "react-icons/bs"
+} from "@/components/ui/table";
+import { Card } from '../components/ui/card';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { setBlog } from '@/redux/blogSlice';
+import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Edit, Trash } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
+} from "@/components/ui/dropdown-menu";
+import { Edit, Trash } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const YourBlog = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { blog } = useSelector((store) => store.blog)
-  const { user } = useSelector((store) => store.auth) // get logged-in user
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { blog } = useSelector((store) => store.blog);
+  const { user } = useSelector((store) => store.auth);
 
   const getOwnBlog = async () => {
     try {
       const res = await axios.get(
-        `https://ash-blogs.onrender.com/api/v1/blog/get-my-blogs`,
+        `https://ash-blogs.onrender.com/api/v1/blog/get-own-blogs`,
         { withCredentials: true }
-      )
+      );
       if (res.data.success) {
-        dispatch(setBlog(res.data.blogs))
+        dispatch(setBlog(res.data.blogs));
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const deleteBlog = async (id) => {
     try {
       const res = await axios.delete(
         `https://ash-blogs.onrender.com/api/v1/blog/delete/${id}`,
         { withCredentials: true }
-      )
+      );
       if (res.data.success) {
-        const updatedBlogData = blog.filter((b) => b._id !== id)
-        dispatch(setBlog(updatedBlogData))
-        toast.success(res.data.message)
+        const updatedBlogData = blog.filter((b) => b._id !== id);
+        dispatch(setBlog(updatedBlogData));
+        toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error)
-      toast.error("Something went wrong")
+      console.log(error);
+      toast.error("Something went wrong");
     }
-  }
+  };
 
   useEffect(() => {
-    getOwnBlog()
-  }, [dispatch])
+    getOwnBlog();
+  }, [dispatch]);
 
   const formatDate = (createdAt) => {
-    const date = new Date(createdAt)
-    return date.toLocaleDateString("en-GB")
-  }
+    const date = new Date(createdAt);
+    return date.toLocaleDateString("en-GB");
+  };
 
   return (
     <div className="pb-10 pt-20 md:ml-[320px] min-h-screen px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto mt-8">
-        <Card className="w-full p-5 space-y-2 dark:bg-gray-800 overflow-x-auto">
+        <Card className="w-full p-5 space-y-4 dark:bg-gray-800 overflow-x-auto">
           <Table className="min-w-full table-auto">
             <TableCaption>A list of your Blogs.</TableCaption>
             <TableHeader>
@@ -85,7 +85,7 @@ const YourBlog = () => {
             </TableHeader>
             <TableBody>
               {blog
-                ?.filter((item) => item.user === user._id) // only show blogs created by current user
+                ?.filter((item) => item.author?._id === user._id) // Only show logged-in user's blogs
                 .map((item) => (
                   <TableRow key={item._id}>
                     <TableCell className="flex items-center gap-4">
@@ -104,24 +104,26 @@ const YourBlog = () => {
                     <TableCell className="whitespace-nowrap">{item.category}</TableCell>
                     <TableCell className="whitespace-nowrap">{formatDate(item.createdAt)}</TableCell>
                     <TableCell className="text-center">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger>
-                          <BsThreeDotsVertical />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem
-                            onClick={() => navigate(`/dashboard/write-blog/${item._id}`)}
-                          >
-                            <Edit className="mr-2 h-4 w-4" /> Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => deleteBlog(item._id)}
-                            className="text-red-800"
-                          >
-                            <Trash className="mr-2 h-4 w-4" /> Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      {item.author?._id === user._id && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger>
+                            <BsThreeDotsVertical />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem
+                              onClick={() => navigate(`/dashboard/write-blog/${item._id}`)}
+                            >
+                              <Edit className="mr-2 h-4 w-4" /> Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => deleteBlog(item._id)}
+                              className="text-red-800"
+                            >
+                              <Trash className="mr-2 h-4 w-4" /> Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -130,7 +132,7 @@ const YourBlog = () => {
         </Card>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default YourBlog
+export default YourBlog;

@@ -73,7 +73,7 @@ const UpdateBlog = () => {
 
     try {
       dispatch(setLoading(true));
-      const res = await axios.put(`http://localhost:3000/api/v1/blog/${id}`, formData, {
+      const res = await axios.put(`https://ash-blogs.onrender.com/api/v1/blog/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         },
@@ -97,7 +97,7 @@ const UpdateBlog = () => {
   const togglePublish = async (action) => {
     try {
       const res = await axios.patch(
-        `http://localhost:3000/api/v1/blog/${id}`,
+        `https://ash-blogs.onrender.com/api/v1/blog/${id}`,
         { action },
         { withCredentials: true }
       );
@@ -116,7 +116,7 @@ const UpdateBlog = () => {
 
   const removeBlog = async () => {
     try {
-      const res = await axios.delete(`http://localhost:3000/api/v1/blog/delete/${id}`, { withCredentials: true });
+      const res = await axios.delete(`https://ash-blogs.onrender.com/api/v1/blog/delete/${id}`, { withCredentials: true });
       if (res.data.success) {
         const updatedBlogData = blog.filter((blogItem) => blogItem?._id !== id);
         dispatch(setBlog(updatedBlogData));

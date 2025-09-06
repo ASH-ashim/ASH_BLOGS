@@ -94,11 +94,11 @@ const CreateBlog = () => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Category</SelectLabel>
-                  <SelectItem value="Web Development">Web Development</SelectItem>
-                  <SelectItem value="Digital Marketing">Digital Marketing</SelectItem>
-                  <SelectItem value="Blogging">Blogging</SelectItem>
-                  <SelectItem value="Photography">Photography</SelectItem>
-                  <SelectItem value="Cooking">Cooking</SelectItem>
+                  <SelectItem value="Web Development">AI</SelectItem>
+                  <SelectItem value="Digital Marketing">Blockchain</SelectItem>
+                  <SelectItem value="Blogging">Philosophy</SelectItem>
+                  <SelectItem value="Photography">New Trends</SelectItem>
+                  <SelectItem value="Cooking">Personal</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
